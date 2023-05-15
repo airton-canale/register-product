@@ -1,3 +1,3 @@
 import "dotenv/config.js";
-import { main } from "./infra/server.js";
+import { main } from "./src/infra/server.js";
 main();

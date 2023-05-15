@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { prisma } from "../helpers/prisma-helper.js";
 import * as controller from "../http/controllers/products.controller.js"
+import { prisma } from "../helpers/prisma-helper.js";
 
 const productRoutes = Router();
 

@@ -7,6 +7,10 @@ class PrismaProductsRepositories {
         AND: [
           {
             name,
+            price,
+            category,
+            size,
+            active,
           },
           {
             description: {
