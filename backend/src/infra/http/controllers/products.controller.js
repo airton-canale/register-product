@@ -6,8 +6,8 @@ import {
 
 const create = async (req, res, next) => {
   try {
+    console.log('eeeita', req.body)
     const { name, description, price, category, size, active } = req.body;
-
     const product = await PrismaProductsRepositories.create({
       name,
       description,
@@ -38,7 +38,8 @@ const create = async (req, res, next) => {
 
     return res.json({ product, imageUrls });
   } catch (e) {
-    next(e);
+    console.log('errrrr', e)
+    //next(e);
   }
 };
 
@@ -49,12 +50,12 @@ const edit = async (req, res, next) => {
 
 
     const products = await PrismaProductsRepositories.edit(id, {
-        name,
-        description,
-        price,
-        category,
-        size,
-        active,
+      name,
+      description,
+      price,
+      category,
+      size,
+      active,
     });
 
     return res.json({ products });
@@ -78,16 +79,16 @@ const findOne = async (req, res, next) => {
 };
 
 const findAll = async (req, res, next) => {
-  try {    
+  try {
     const { name, description, price, category, size, active } = req.query;
 
     const products = await PrismaProductsRepositories.findAll({
-        name,
-        description,
-        price,
-        category,
-        size,
-        active,
+      name,
+      description,
+      price,
+      category,
+      size,
+      active,
     });
 
     const parsedProducts = products.map((p) => ({

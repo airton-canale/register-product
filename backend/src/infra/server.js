@@ -6,9 +6,9 @@ import { router } from "../infra/routes/index.js";
 import cors from "cors";
 
 const app = express();
-
 export const main = () => {
   setupMiddlewares(app);
+  app.use(router);
   app.use(cookieParser());
   app.use(
     sessionMiddleware({
@@ -26,8 +26,6 @@ const corsOrigin = {
 };
 app.use(cors(corsOrigin));
 
-app.use(router);
-
-app.listen(process.env.BACKEND_PORT, () =>
-  console.log(`Server running on port ${process.env.BACKEND_PORT}`)
+app.listen(3003, () =>
+  console.log(`Server running on port 3003`)
 );
