@@ -16,16 +16,27 @@ import {
 import { useState } from "react";
 
 const RegiterProductForm = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    active: false
+  });
   const [files, setFiles] = useState([]);
 
-  const saveProductRequest = useRequest("POST", "/product" )
+  const saveProductRequest = useRequest("POST", "/product");
 
-  const handleChange = ({ target: { name, value, type, checked } }) => {
+  const handleChange = ({
+    target: { name, value, type, checked, valueAsNumber },
+  }) => {
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : type === "number"
+          ? valueAsNumber
+          : value,
     }));
+    console.log(name, checked);
+    console.log(formData);
   };
 
   const handleSelectChange = (name) => (value) => {
@@ -86,6 +97,7 @@ const RegiterProductForm = () => {
               name="price"
               label="Preço Ex: 100.00"
               size="lg"
+              type="number"
             />
             <Select onChange={handleSelectChange("category")} label="Categoria">
               <Option value="electronics">Eletrônicos</Option>
