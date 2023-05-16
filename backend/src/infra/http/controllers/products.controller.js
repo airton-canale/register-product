@@ -1,4 +1,5 @@
 import { PrismaProductsRepositories } from "../../database/prisma/repositories/prisma-products-repository.js";
+import { created } from "../../helpers/http-helper.js";
 import {
   generatePresignedUrl,
   getAssetFullPath,
@@ -35,7 +36,9 @@ const create = async (req, res) => {
       images.map((i) => i.name).map(generatePresignedUrl)
     );
 
-    return res.json({ product, imageUrls });
+    // return res.json({ product, imageUrls });
+    return created('Produto criado com sucesso!')
+
   } catch (e) {
     console.log('errrrr', e)
   }
