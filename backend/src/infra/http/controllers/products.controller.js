@@ -7,14 +7,15 @@ import {
 
 const create = async (req, res) => {
   try {
-    const { name, description, price, category, size, active } = req.body;
+    const { name, description, price, category, size } = req.body;
+    const activeValue = req.body.active || false;
     const product = await PrismaProductsRepositories.create({
       name,
       description,
       price,
       category,
       size,
-      active,
+      active: activeValue,
     });
 
     const productId = product.id;
