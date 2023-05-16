@@ -17,9 +17,6 @@ class PrismaProductsRepositories {
               contains: description,
             },
           },
-          {
-            species,
-          },
         ],
       },
       include: {
