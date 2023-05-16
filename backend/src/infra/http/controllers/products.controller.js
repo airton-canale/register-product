@@ -4,9 +4,8 @@ import {
   getAssetFullPath,
 } from "../../helpers/s3-helper.js";
 
-const create = async (req, res, next) => {
+const create = async (req, res) => {
   try {
-    console.log('eeeita', req.body)
     const { name, description, price, category, size, active } = req.body;
     const product = await PrismaProductsRepositories.create({
       name,
@@ -39,11 +38,10 @@ const create = async (req, res, next) => {
     return res.json({ product, imageUrls });
   } catch (e) {
     console.log('errrrr', e)
-    //next(e);
   }
 };
 
-const edit = async (req, res, next) => {
+const edit = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description, price, category, size, active } = req.body;
@@ -60,11 +58,11 @@ const edit = async (req, res, next) => {
 
     return res.json({ products });
   } catch (e) {
-    next(e);
+    console.log('errrrr', e)
   }
 };
 
-const findOne = async (req, res, next) => {
+const findOne = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -74,11 +72,11 @@ const findOne = async (req, res, next) => {
 
     return res.json(product);
   } catch (e) {
-    next(e);
+    console.log('errrrr', e)
   }
 };
 
-const findAll = async (req, res, next) => {
+const findAll = async (req, res) => {
   try {
     const { name, description, price, category, size, active } = req.query;
 
@@ -98,11 +96,11 @@ const findAll = async (req, res, next) => {
 
     return res.json({ products: parsedProducts });
   } catch (e) {
-    next(e);
+    console.log('errrrr', e)
   }
 };
 
-const remove = async (req, res, next) => {
+const remove = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -110,7 +108,7 @@ const remove = async (req, res, next) => {
 
     return res.json({ product });
   } catch (e) {
-    next(e);
+    console.log('errrrr', e)
   }
 };
 
