@@ -8,12 +8,6 @@ const create = async (req, res, next) => {
   try {
     const { name, description, price, category, size, active } = req.body;
 
-    const requiredFields = [name, description, price, category, size];
-    requiredFields.forEach((f) => {
-      if (req.body[f]) return;
-      return res.status(400).send(`${f} is required!`);
-    });
-
     const product = await PrismaProductsRepositories.create({
       name,
       description,

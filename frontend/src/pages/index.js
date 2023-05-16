@@ -1,4 +1,5 @@
 import FileInput from "@/components/FileInput.js";
+import useRequest from "@/hooks/useRequest";
 import {
   Card,
   CardHeader,
@@ -14,9 +15,11 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 
-const RegiterProductModal = () => {
+const RegiterProductForm = () => {
   const [formData, setFormData] = useState({});
   const [files, setFiles] = useState([]);
+
+  const saveProductRequest = useRequest("POST", "/product" )
 
   const handleChange = ({ target: { name, value, type, checked } }) => {
     setFormData((prev) => ({
@@ -33,25 +36,23 @@ const RegiterProductModal = () => {
   };
 
   const handleSubmit = () => {
-    // const filesToSend = files.map((f) => ({
-    //   type: f.type,
-    //   name: f.name,
-    //   size: f.size,
-    // }));
+    const filesToSend = files.map((f) => ({
+      type: f.type,
+      name: f.name,
+      size: f.size,
+    }));
 
-    // savePetRequest
-    //   .send({ ...formData, files: filesToSend })
-    //   .then(async ({ data }) => {
-    //     const imageUrls = data.imageUrls;
-    //     await Promise.all(
-    //       imageUrls.map((url, i) => {
-    //         const images = files[i];
-    //         return axios.put(url, images);
-    //       })
-    //     );
-    //     console.log('redirect')
-    //   });
-    console.log("submited");
+    saveProductRequest
+      .send({ ...formData, files: filesToSend })
+      .then(async ({ data }) => {
+        const imageUrls = data.imageUrls;
+        await Promise.all(
+          imageUrls.map((url, i) => {
+            const images = files[i];
+            return axios.put(url, images);
+          })
+        );
+      });
   };
 
   return (
@@ -83,7 +84,7 @@ const RegiterProductModal = () => {
             <Input
               onChange={handleChange}
               name="price"
-              label="Preço Ex: 100,00"
+              label="Preço Ex: 100.00"
               size="lg"
             />
             <Select onChange={handleSelectChange("category")} label="Categoria">
@@ -128,4 +129,4 @@ const RegiterProductModal = () => {
   );
 };
 
-export default RegiterProductModal;
+export default RegiterProductForm;

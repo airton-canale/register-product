@@ -2,7 +2,7 @@ import { prisma } from "../../../helpers/prisma-helper.js";
 
 class PrismaProductsRepositories {
   static async findAll({ name, description, price, category, size, active }) {
-    const products = await prisma.product.findMany({
+    const products = await prisma.product.findAll({
       where: {
         AND: [
           {
