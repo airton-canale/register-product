@@ -5,10 +5,18 @@ const FileInput = ({ onChange, limit }) => {
   const [files, setFiles] = useState([]);
   const fileRef = useRef();
 
-  const handleFileChange = (e) => {
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
+  const handleFileChange = async (e) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
-    file.preview = URL.createObjectURL(file);
+    file.preview = await getBase64(file);
     setFiles((prev) => [...prev, file]);
 
     fileRef.current.value = "";

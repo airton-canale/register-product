@@ -21,6 +21,13 @@ const RegiterProductForm = () => {
   });
   const [files, setFiles] = useState([]);
 
+
+  const handleFileChange = (file) => {
+    setFiles(file.map((f)=> {
+      return f?.preview 
+    }))
+  };
+
   const saveProductRequest = useRequest("POST", "/product");
 
   const handleChange = ({
@@ -35,8 +42,6 @@ const RegiterProductForm = () => {
           ? valueAsNumber
           : value,
     }));
-    console.log(name, checked);
-    console.log(formData);
   };
 
   const handleSelectChange = (name) => (value) => {
@@ -47,23 +52,17 @@ const RegiterProductForm = () => {
   };
 
   const handleSubmit = () => {
-    const filesToSend = files.map((f) => ({
-      type: f.type,
-      name: f.name,
-      size: f.size,
-    }));
-
     saveProductRequest
-      .send({ ...formData, files: filesToSend })
-      .then(async ({ data }) => {
-        const imageUrls = data.imageUrls;
-        await Promise.all(
-          imageUrls.map((url, i) => {
-            const images = files[i];
-            return axios.put(url, images);
-          })
-        );
-      });
+      .send({ ...formData, ...files })
+      // .then(async ({ data }) => {
+      //   const imageUrls = data.imageUrls;
+      //   await Promise.all(
+      //     imageUrls.map((url, i) => {
+      //       const images = files[i];
+      //       return axios.put(url, images);
+      //     })
+      //   );
+      // });
   };
 
   return (
@@ -84,7 +83,7 @@ const RegiterProductForm = () => {
             </div>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
-            <FileInput limit={3} onChange={setFiles} />
+            <FileInput limit={3} onChange={handleFileChange}/>
             <Input onChange={handleChange} name="name" label="Nome" size="lg" />
             <Input
               onChange={handleChange}

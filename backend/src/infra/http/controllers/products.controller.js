@@ -1,13 +1,9 @@
 import { PrismaProductsRepositories } from "../../database/prisma/repositories/prisma-products-repository.js";
 import { created } from "../../helpers/http-helper.js";
-import {
-  generatePresignedUrl,
-  getAssetFullPath,
-} from "../../helpers/s3-helper.js";
 
 const create = async (req, res) => {
   try {
-    const { name, description, price, category, size } = req.body;
+    const { name, description, price, category, size, files } = req.body;
     const activeValue = req.body.active || false;
     const product = await PrismaProductsRepositories.create({
       name,
@@ -19,26 +15,21 @@ const create = async (req, res) => {
     });
 
     const productId = product.id;
+    // const images = files.map((img, i) => {
+      // const { type } = img;
+      // const fileKey = `product-${productId}-${i}.${type.split("/").pop()}`;
 
-    const images = files.map((img, i) => {
-      const { type } = img;
-      const fileKey = `product-${productId}-${i}.${type.split("/").pop()}`;
+    //   return {
+    //     ...img,
+    //     originalName: img.name,
+    //     name: fileKey,
+    //   };
+    // });
 
-      return {
-        ...img,
-        originalName: img.name,
-        name: fileKey,
-      };
-    });
-
-    await PrismaProductsRepositories.edit(productId, { images: { create: images } });
-
-    const imageUrls = await Promise.all(
-      images.map((i) => i.name).map(generatePresignedUrl)
-    );
+    // await PrismaProductsRepositories.edit(productId, { images: { create: images } });
 
     // return res.json({ product, imageUrls });
-    return created('Produto criado com sucesso!')
+    return res.status(200).json({ mensagem: 'Sucesso' })
 
   } catch (e) {
     console.log('errrrr', e)
@@ -72,7 +63,6 @@ const findOne = async (req, res) => {
 
     const product = await PrismaProductsRepositories.findOne(id);
 
-    product.images = product.images?.map((i) => i.name).map(getAssetFullPath);
 
     return res.json(product);
   } catch (e) {
@@ -95,7 +85,7 @@ const findAll = async (req, res) => {
 
     const parsedProducts = products.map((p) => ({
       ...p,
-      images: p.images?.map((i) => i.name).map(getAssetFullPath),
+      images: p.images?.map((i) => i.name),
     }));
 
     return res.json({ products: parsedProducts });

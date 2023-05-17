@@ -16,23 +16,8 @@ model Product {
   category    String
   size        String
   active      Boolean
-  images      File[]
+  images      String
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("products")
-}
-
-model File {
-  id           String @id @default(uuid())
-  originalName String
-  size         Int
-  name         String
-  type         String
-
-  createdAt DateTime @default(now()) @map("created_at")
-
-  Product   Product?    @relation(fields: [productId], references: [id])
-  productId String?
-
-  @@map("files")
 }
