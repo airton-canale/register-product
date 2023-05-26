@@ -29,7 +29,8 @@ const create = async (req, res) => {
     // await PrismaProductsRepositories.edit(productId, { images: { create: images } });
 
     // return res.json({ product, imageUrls });
-    return res.status(200).json({ mensagem: 'Sucesso' })
+    // return res.status(200).json({ mensagem: 'Sucesso' })
+    return created('product created')
 
   } catch (e) {
     console.log('errrrr', e)
