@@ -5,4 +5,4 @@ const router = Router();
 
 router.use("/product", productRoutes);
 
-export { router };
+export { router };   

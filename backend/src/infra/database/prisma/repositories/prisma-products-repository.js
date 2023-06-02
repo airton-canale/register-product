@@ -33,7 +33,7 @@ class PrismaProductsRepositories {
     category,
     size,
     active,
-    images,
+    images
   }) {
     return prisma.product.create({
       data: {
@@ -43,7 +43,7 @@ class PrismaProductsRepositories {
         category,
         size,
         active,
-        images,
+        images: 'teste',
       },
     });
   }
