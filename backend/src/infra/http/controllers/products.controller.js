@@ -3,7 +3,7 @@ import { badRequest, created, serverError } from "../../helpers/http-helper.js";
 
 export const create = async (req, res) => {
   try {
-    const { name, description, price, category, size, files } = req.body;
+    const { name, description, price, category, size, images } = req.body;
     const activeValue = req.body.active || false;
     const product = await PrismaProductsRepositories.create({
       name,
@@ -12,8 +12,8 @@ export const create = async (req, res) => {
       category,
       size,
       active: activeValue,
+      images
     });
-    console.log('ta entrando aqui??')
 
     const productId = product.id;
     // const images = files.map((img, i) => {
@@ -34,6 +34,7 @@ export const create = async (req, res) => {
     return created('product created')
 
   } catch (e) {
+    console.log(e)
     return serverError()
   }
 };
