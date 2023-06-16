@@ -6,7 +6,8 @@ const adaptRoute = (controller) => {
       params: req.params
     }
     const httpResponse = await controller(httpRequest)
-    return res.status(httpResponse?.status).json(httpResponse?.data).send()
+    console.log('bora tio', httpResponse)
+    return res.status(httpResponse?.statusCode || 200).json(httpResponse?.data || null).send()
   }
 }
 

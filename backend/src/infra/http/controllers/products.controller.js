@@ -1,7 +1,7 @@
 import { PrismaProductsRepositories } from "../../database/prisma/repositories/prisma-products-repository.js";
-import { created } from "../../helpers/http-helper.js";
+import { badRequest, created, serverError } from "../../helpers/http-helper.js";
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const { name, description, price, category, size, files } = req.body;
     const activeValue = req.body.active || false;
@@ -13,6 +13,7 @@ const create = async (req, res) => {
       size,
       active: activeValue,
     });
+    console.log('ta entrando aqui??')
 
     const productId = product.id;
     // const images = files.map((img, i) => {
@@ -33,11 +34,11 @@ const create = async (req, res) => {
     return created('product created')
 
   } catch (e) {
-    console.log('errrrr', e)
+    return serverError()
   }
 };
 
-const edit = async (req, res) => {
+export const edit = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description, price, category, size, active } = req.body;
@@ -58,7 +59,7 @@ const edit = async (req, res) => {
   }
 };
 
-const findOne = async (req, res) => {
+export const findOne = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -71,7 +72,7 @@ const findOne = async (req, res) => {
   }
 };
 
-const findAll = async (req, res) => {
+export const findAll = async (req, res) => {
   try {
     const { name, description, price, category, size, active } = req.query;
 
@@ -95,7 +96,7 @@ const findAll = async (req, res) => {
   }
 };
 
-const remove = async (req, res) => {
+export const remove = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -107,4 +108,3 @@ const remove = async (req, res) => {
   }
 };
 
-export { create, edit, findOne, findAll, remove };

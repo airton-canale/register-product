@@ -9,3 +9,7 @@ export const badRequest = (data) => {
 export const created = (data) => {
     return {statusCode: 201, data}
 }
+
+export const serverError = () => {
+    return {statusCode: 500, data: 'Houve um problema interno com nosso servidor!'}
+}
